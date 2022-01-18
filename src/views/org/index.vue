@@ -1,0 +1,3 @@
+<template>
+    Org Index
+</template>

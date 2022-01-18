@@ -6,9 +6,9 @@ import "@/assets/app.scss";
 import router from "./router.js";
 
 /* Ant Design Components */
-import Antd from "ant-design-vue";
+import ant from "./components/ant.js";
 
 createApp(App)
     .use( router )
-    .use( Antd )
+    .use( ant )
     .mount('#app')
