@@ -18,6 +18,9 @@ const router = createRouter({
         {
             path: "/",
             component: index,
+            meta: {
+                title: "Dashboard",
+            }
         },
 
         {
@@ -26,13 +29,19 @@ const router = createRouter({
 
             children: [
                 {
-                    path: "/",
-                    component: org_index
+                    path: "",
+                    component: org_index,
+                    meta: {
+                        title: "Organization List",
+                    }
                 },
 
                 {
                     path: "add",
-                    component: org_create
+                    component: org_create,
+                    meta: {
+                        title: "Create Organization",
+                    }
                 }
             ]
         },
@@ -43,13 +52,19 @@ const router = createRouter({
 
             children: [
                 {
-                    path: "/",
-                    component: user_index
+                    path: "",
+                    component: user_index,
+                    meta: {
+                        title: "User List",
+                    }
                 },
 
                 {
                     path: "add",
-                    component: user_create
+                    component: user_create,
+                    meta: {
+                        title: "Create User",
+                    }
                 }
             ]
         },
@@ -60,17 +75,39 @@ const router = createRouter({
 
             children: [
                 {
-                    path: "/",
-                    component: form_index
+                    path: "",
+                    component: form_index,
+                    meta: {
+                        title: "Form List",
+                    }
                 },
 
                 {
                     path: "add",
-                    component: form_create
+                    component: form_create,
+                    meta: {
+                        title: "Create Form",
+                    }
                 }
             ]
         },
     ]
+});
+
+router.beforeEach( (to, from, next) => {
+    next();
+});
+
+/**
+ * After Jump
+ */
+router.afterEach((to, from) => {
+    /**
+     * Setting Page Title
+     */
+    if( to?.meta?.title ) {
+        document.title = to?.meta?.title + " - Daily Review System"
+    }
 });
 
 export default router;
