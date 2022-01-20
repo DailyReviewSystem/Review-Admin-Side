@@ -116,11 +116,6 @@ const router = createRouter({
 });
 
 /**
- * Init Store ( get token )
- */
-store.dispatch("init");
-
-/**
  * Before Each Route Enter ( Check Authentication )
  */
 router.beforeEach( (to, from, next) => {

@@ -64,12 +64,16 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
-
-const store = useStore();
-
 /**
  * Components, contribute to `setup`, no need to call `app.componnet`
  */
 import KSidebar from "@/components/KSidebar.vue";
+import { useStore } from 'vuex';
+
+/**
+ * Init Store
+ */
+const store = useStore();
+store.dispatch("init");
+
 </script>

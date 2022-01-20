@@ -72,8 +72,6 @@ function submit() {
         if( data?.token ) {
             store.dispatch("storeToken", data.token );
 
-            console.log( 1 );
-
             // alert
             router.push("/");
         }

@@ -1,11 +1,6 @@
 import axios from "axios";
 import store from "@/store/index.js";
 
-/**
- * Init Store
- */
-store.dispatch("init");
-
 export default {
     install( app ) {
         /**
