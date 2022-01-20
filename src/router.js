@@ -88,7 +88,7 @@ const router = createRouter({
         },
 
         {
-            path: "/form",
+            path: "/template",
             component: parent,
             meta: {
                 auth: true,

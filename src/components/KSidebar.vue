@@ -6,54 +6,24 @@
             v-model:openKeys="openKeys"
             :style="{ height: '100%', borderRight: 0 }"
         >
-            <a-sub-menu key="/user">
+            <a-sub-menu
+                v-for="item in sidebar" :key="item.link"
+            >
                 <template #title>
-              <span>
-                <user-outlined/>
-                <span>Users</span>
-              </span>
-                </template>
-                <a-menu-item key="/user">
-                    <router-link to="/user">User List</router-link>
-                </a-menu-item>
-
-                <a-menu-item key="/user/add">
-                    <router-link to="/user/add">Create User</router-link>
-                </a-menu-item>
-
-            </a-sub-menu>
-
-            <a-sub-menu key="/org">
-                <template #title>
-              <span>
-                <laptop-outlined/>
-                <span>Organizations</span>
-              </span>
-                </template>
-                <a-menu-item key="/org">
-                    <router-link to="/org">Organization List</router-link>
-                </a-menu-item>
-
-                <a-menu-item key="/org/add">
-                    <router-link to="/org/add">Create Organization</router-link>
-                </a-menu-item>
-            </a-sub-menu>
-
-            <a-sub-menu key="form">
-                <template #title>
-              <span>
-                <notification-outlined/>
-                <span>Forms</span>
-              </span>
+                    <span>
+                        <component :is="item.icon"></component>
+                        <span>{{ item.name }}</span>
+                    </span>
                 </template>
 
-                <a-menu-item key="/form">
-                    <router-link to="/form">Form List</router-link>
-                </a-menu-item>
-
-                <a-menu-item key="/form/add">
-                    <router-link to="/form/add">Create Form</router-link>
-                </a-menu-item>
+                <template v-if="item.children.length">
+                    <a-menu-item
+                        v-for="sub in item.children"
+                        :key="item.link + (sub.link || '')"
+                    >
+                        <router-link :to="item.link + (sub.link || '')">{{ sub.name }}</router-link>
+                    </a-menu-item>
+                </template>
             </a-sub-menu>
         </a-menu>
     </aside>
@@ -64,12 +34,62 @@ import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/
 import { useRoute } from "vue-router";
 import { ref, watch, computed } from "vue";
 
+// Tools
 const route = useRoute();
+
+// Computed
 const path = computed(() => route.path );
 const matched = computed( () => route.matched );
 
+// Data
 const openKeys = ref([]);
 const selectedKeys = ref([]);
+const sidebar = [
+    {
+        name: "Users",
+        link: "/user",
+        icon: UserOutlined,
+        children: [
+            {
+                name: "User List",
+            },
+            {
+                name: "Create User",
+                link: "/add"
+            },
+        ]
+    },
+
+    {
+        name: "Organizations",
+        link: "/org",
+        icon: LaptopOutlined,
+        children: [
+            {
+                name: "Organization List",
+            },
+            {
+                name: "Create Organization",
+                link: "/add"
+            },
+        ]
+    },
+
+    {
+        name: "Form Templates",
+        link: "/template",
+        icon: NotificationOutlined,
+        children: [
+            {
+                name: "Template List",
+            },
+            {
+                name: "Create Template",
+                link: "/add"
+            },
+        ]
+    },
+];
 
 watch( path, newPath => {
     openKeys.value.push( route.matched[0].path );
