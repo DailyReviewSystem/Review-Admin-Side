@@ -31,19 +31,15 @@
 
 <script setup>
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
-import { useRoute } from "vue-router";
-import { ref, watch, computed } from "vue";
+import { ref } from "vue";
 
-// Tools
-const route = useRoute();
-
-// Computed
-const path = computed(() => route.path );
-const matched = computed( () => route.matched );
+const url = new URL( window.location );
+const path = url.pathname;
+const rootPath = '/' + path.split("/")[1];
 
 // Data
-const openKeys = ref([]);
-const selectedKeys = ref([]);
+const openKeys = ref([ rootPath ]);
+const selectedKeys = ref([ path ]);
 const sidebar = [
     {
         name: "Users",
@@ -90,16 +86,5 @@ const sidebar = [
         ]
     },
 ];
-
-watch( path, newPath => {
-    openKeys.value.push( route.matched[0].path );
-    selectedKeys.value.push( newPath );
-
-    console.log( openKeys.value, selectedKeys.value );
-});
-
-watch( openKeys.value, newVal => {
-    console.log("Updated");
-})
 
 </script>
