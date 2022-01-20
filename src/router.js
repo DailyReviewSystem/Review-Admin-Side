@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "./store/index.js";
+
+import login from "@/views/auth/login.vue";
 
 import index from "@/views/index.vue";
 import parent from "@/views/parent.vue";
@@ -19,13 +22,25 @@ const router = createRouter({
             path: "/",
             component: index,
             meta: {
+                auth: true,
                 title: "Dashboard",
+            }
+        },
+
+        {
+            path: "/login",
+            component: login,
+            meta: {
+                title: "Login Page"
             }
         },
 
         {
             path: "/org",
             component: parent,
+            meta: {
+                auth: true,
+            },
 
             children: [
                 {
@@ -49,6 +64,9 @@ const router = createRouter({
         {
             path: "/user",
             component: parent,
+            meta: {
+                auth: true,
+            },
 
             children: [
                 {
@@ -72,6 +90,9 @@ const router = createRouter({
         {
             path: "/form",
             component: parent,
+            meta: {
+                auth: true,
+            },
 
             children: [
                 {
@@ -94,12 +115,31 @@ const router = createRouter({
     ]
 });
 
+/**
+ * Init Store ( get token )
+ */
+store.dispatch("init");
+
+/**
+ * Before Each Route Enter ( Check Authentication )
+ */
 router.beforeEach( (to, from, next) => {
-    next();
+    const requireAuth = to.matched.some( route => route.meta.auth );
+
+    if( requireAuth ) {
+        // Have Token, Might Authenticated
+        if( store.state.token ) {
+            next();
+        } else {
+            next("/login");
+        }
+    } else {
+        next();
+    }
 });
 
 /**
- * After Jump
+ * After Jump, Setting Title Of Page
  */
 router.afterEach((to, from) => {
     /**

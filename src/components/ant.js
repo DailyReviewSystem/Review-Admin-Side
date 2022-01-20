@@ -1,5 +1,8 @@
 import {
     Menu,
+    Form,
+    Input,
+    Table,
     Button,
     Layout,
     Breadcrumb,
@@ -9,6 +12,9 @@ export default {
     install( app ) {
         app
             .use( Menu )
+            .use( Form )
+            .use( Input )
+            .use( Table )
             .use( Button )
             .use( Layout )
             .use( Breadcrumb )

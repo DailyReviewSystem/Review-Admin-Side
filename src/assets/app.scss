@@ -1,5 +1,6 @@
 @import "ant-design-vue/dist/antd.css";
 
 body, html, #app {
+  min-height: 100vh;
   height: 100%;
 }
